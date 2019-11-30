@@ -36,11 +36,11 @@ const Blog = ({ blog, addLike, user, deleteBlog }) => {
 
   const showBlog = () => {
     return (
-      <div style = {blogStyle}>
-        <div onClick = {toggleExpanded} style = {hideWhenVisible}>
+      <div style = {blogStyle} className = "blog">
+        <div onClick = {toggleExpanded} style = {hideWhenVisible} className = 'truncated'>
           {blog.title} {blog.author}
         </div>
-        <div onClick = {toggleExpanded} style = {showWhenVisible}>
+        <div onClick = {toggleExpanded} style = {showWhenVisible} className = 'expanded'>
           <p>
             {blog.title} by {blog.author}
           </p>
@@ -78,9 +78,8 @@ const Blog = ({ blog, addLike, user, deleteBlog }) => {
 }
 
 Blog.propTypes = {
-  blog: PropTypes.string.isRequired,
+  blog: PropTypes.object.isRequired,
   addLike: PropTypes.func.isRequired,
-  user: PropTypes.string.isRequired,
   deleteBlog: PropTypes.func.isRequired
 }
 

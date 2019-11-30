@@ -75,6 +75,7 @@ const App = () => {
       }, 5000)
     }
   }
+
   const blogsList = () => blogs.map(blog =>
     <Blog
       key={blog.id}

@@ -9,7 +9,7 @@ const LoginForm = ({
   password
 }) => {
   return (
-    <div>
+    <div className = "loginForm">
       <h2> Login </h2>
       <form onSubmit={handleSubmit}>
         <div>
