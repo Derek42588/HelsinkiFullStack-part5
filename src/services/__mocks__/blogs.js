@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 const blogs = [
   {
     id: '5a451df7571c224a31b5c8ce',
@@ -40,6 +41,7 @@ const getAll = () => {
   return Promise.resolve(blogs)
 }
 
+// eslint-disable-next-line no-unused-vars
 let token = null
 
 const setToken = newToken => {

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-undef */
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
@@ -9,15 +10,21 @@ import Togglable from './components/Togglable'
 
 import blogService from './services/blogs'
 import loginService from './services/login'
+import { useField } from './hooks/index'
 
 const App = () => {
   const [loginVisible, setLoginVisible] = useState(false)
   const [blogs, setBlogs] = useState([])
   const [errorMessage, setErrorMessage] = useState(null)
   const [messageType, setMessageType] = useState('error')
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+
+  const username = useField('text')
+  const author = useField('text')
+  const title = useField('text')
+  const url = useField('text')
+  const password = useField('password')
+
 
 
   useEffect(() => {
@@ -52,7 +59,7 @@ const App = () => {
     event.preventDefault()
     try {
       const user = await loginService.login({
-        username, password
+        username: username.value, password: password.value
       })
 
       window.localStorage.setItem(
@@ -60,14 +67,15 @@ const App = () => {
       )
       blogService.setToken(user.token)
       setUser(user)
-      setUsername('')
-      setPassword('')
+      username.reset()
+      password.reset()
       setMessageType('success')
       setErrorMessage('Logged in successfully!')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
     } catch (exception) {
+      console.log(exception)
       setMessageType('error')
       setErrorMessage('Wrong credentials')
       setTimeout(() => {
@@ -124,8 +132,6 @@ const App = () => {
           <LoginForm
             username = {username}
             password = {password}
-            handleUsernameChange = {({ target }) => setUsername(target.value)}
-            handlePasswordChange = {({ target }) => setPassword(target.value)}
             handleSubmit = {handleLogin}
           />
           <button onClick ={() => setLoginVisible(false)}>cancel</button>
@@ -139,12 +145,24 @@ const App = () => {
   const blogForm = () => (
     <Togglable buttonLabel = "add blog" ref = {blogFormRef}>
       <BlogForm
-        addBlog = {addBlog}/>
+        handleSubmit = {addBlog}
+        title = {title}
+        author = {author}
+        url = {url}/>
     </Togglable>
   )
 
-  const addBlog = async (blogObject) => {
+  const addBlog = (event) => {
+    event.preventDefault()
 
+    const blogObject = {
+      title: title.value,
+      author: author.value,
+      url: url.value
+    }
+    author.reset()
+    url.reset()
+    title.reset()
     blogService
       .create(blogObject)
       .then(returnedBlog => {

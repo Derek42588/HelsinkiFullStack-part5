@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, waitForElement } from '@testing-library/react'
+// eslint-disable-next-line no-unused-vars
 import { prettyDOM } from '@testing-library/dom'
 import App from './App'
 jest.mock('./services/blogs')
@@ -57,7 +59,6 @@ describe('<App />', () => {
 
     const blogs = component.container.querySelectorAll('.blog')
     expect(blogs.length).toBe(3)
-    
     component.debug()
   })
 })
